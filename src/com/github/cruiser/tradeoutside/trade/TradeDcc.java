@@ -1,6 +1,8 @@
-package test;
+package com.github.cruiser.tradeoutside.trade;
 
-public class TradeDcc {
+import java.math.BigDecimal;
+
+public class TradeDcc implements Trade {
 	
 	private long id;
 
@@ -18,6 +20,10 @@ public class TradeDcc {
 	private String busiNo;/*merchant_no char (15) 商户号，42域*/
 	private String crdTyp;/*card_flag char (1) V/M/D/J/A*/
 	private String actDat;/*settlement_date char (8) 清算日期 */
+
+	public BigDecimal getTxnAmtInDecimal(){
+		return (txnAmt==null?new BigDecimal("0.0"):new BigDecimal(txnAmt)).divide(new BigDecimal("100.0"));
+	}
 
 	public void setId(long id) {
 		this.id = id;
@@ -139,5 +145,23 @@ public class TradeDcc {
 		this.actDat = actDat;
 	}
 	
+	public String toString(){
+		StringBuffer sb = new StringBuffer();
+		sb.append("\ntxnTim: ").append(txnTim)
+		.append("\ntxnCod: ").append(txnCod)
+		.append("\nseqNum: ").append(seqNum)
+		.append("\ntermId: ").append(termId)
+		.append("\nacpAdr: ").append(acpAdr)
+		.append("\nactNo: ").append(actNo)
+		.append("\nvalDat: ").append(valDat)
+		.append("\ntxnAmt: ").append(txnAmt)
+		.append("\ntips: ").append(tips)
+		.append("\naRspCd: ").append(aRspCd)
+		.append("\ntxnDat: ").append(txnDat)
+		.append("\nbusiNo: ").append(busiNo)
+		.append("\ncrdTyp: ").append(crdTyp)
+		.append("\nactDat: ").append(actDat);
+		return sb.toString();
 
+	}
 }

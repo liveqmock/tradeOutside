@@ -1,7 +1,7 @@
 import org.hibernate.*;
 import org.hibernate.cfg.*;
 
-import test.TradeDcc;
+import com.github.cruiser.tradeoutside.trade.TradeDcc;
 
 public class TradeDccTest {
 
