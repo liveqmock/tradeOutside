@@ -3,90 +3,79 @@ import java.io.*;
 import java.lang.reflect.*;
 import java.util.List;
 import java.util.ArrayList;
+import java.math.*;
 
 import com.github.cruiser.tradeoutside.trade.Trade;
 import com.github.cruiser.tradeoutside.trade.TradeDcc;
 
-public class DccInputFile implements InputFile {
+public class DccInputFile extends InputFile {
 
-	private int fillerLength = 1;
-	private String[] fieldName = {"TxnTim", "TxnCod", "SeqNum", "TermId",
-			"AcpAdr", "ActNo", "ValDat", "TxnAmt",
-			"Tips", "aRspCd", "TxnDat", "BusiNo",
-			"CrdTyp", "ActDat"};//
-	private int[] fieldFixedLength = {6,4,12,8,40,19,4,12,12,6,8,15,1,8};//各字段长度
-	private Class<?>[][] fieldType = {{String.class}, {String.class}, {String.class}, {String.class},
-			{String.class}, {String.class}, {String.class}, {String.class},
-			{String.class}, {String.class}, {String.class}, {String.class},
-			{String.class}, {String.class}
-			};
 	private List<Trade> trades = new ArrayList<Trade>();
 	
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) throws Exception{
-//		File inputFile = new File(".");
-//		System.out.println(inputFile.getCanonicalPath());
-		BufferedReader br = new BufferedReader(new FileReader("tmp/BOCOM_PIF_20120524.txt"));
+	@Override
+	public List<Trade> getTradeList(String fileName) throws Exception{
+
+		BufferedReader br = new BufferedReader(new FileReader(fileName));
 		String oneline = null;
+
 		try{
 			while(null!=(oneline=br.readLine())){
-				System.out.println(oneline);
-				new DccInputFile().fillerByFixedLength(oneline);
+				trades.add(DccInputFile.fillerByFixedLength(oneline));
 			}
-			
+			return trades;
 		}finally{
-			if(null!=br){
-				br.close();
-			}
+				if(null!=br){
+					br.close();
+				}
 		}
-		//new InputFile().fillerByFixedLength(br.readLine());
 	}
-
-	/*public TradeDcc _fillerByFixedLength(String oneline) throws Exception{
-		//Map<String, Integer> fields_begin = new HashMap<String, Integer>();
-		//Map<String, Integer> fields_end = new HashMap<String, Integer>();
-		//TradeDcc _tmp = new TradeDcc();
-		Class _tmp = Class.forName("test.TradeDcc");
-		TradeDcc tmp = (TradeDcc)_tmp.newInstance();
-		Class[] parmType = {String.class};
-		Method _tmp_method = _tmp.getMethod("set"+fieldName[0].substring(0,1).toUpperCase()+fieldName[0].substring(1), parmType);
-		Object[] parmValue = {"xxxx"};
-		_tmp_method.invoke(tmp, parmValue);
-		System.out.println(tmp);
-		//TradeDcc tmp = (Class<TradeDcc>)_tmp;
-		return tmp;
-	}*/
 	
-	public TradeDcc fillerByFixedLength(String oneline) throws Exception{
-		Class<?> _tmp = Class.forName("test.TradeDcc");
-		TradeDcc tmp = (TradeDcc)_tmp.newInstance();
-		//Class<?>[] parmType = {String.class};
+	public static TradeDcc fillerByFixedLength(String oneline) throws Exception{
 
-		int index = 0;
-		for(int i=0; i< fieldFixedLength.length; i++){
+		int fillerLength = 1;//分隔长度
+
+		String[] fieldName = {"TxnTim", "TxnCod", "SeqNum", "TermId",
+				"AcpAdr", "ActNo", "ValDat", "TxnAmt",
+				"Tips", "aRspCd", "TxnDat", "BusiNo",
+				"CrdTyp", "ActDat"};//各字段set方法名称
+
+		int[] fieldFixedLength = {6,4,12,8,
+				40,19,4,12,
+				12,6,8,15,
+				1,8};//各字段长度
+
+		Class<?>[][] fieldType = {{String.class}, {String.class}, {String.class}, {String.class},
+				{String.class}, {String.class}, {String.class}, {BigDecimal.class},
+				{String.class}, {String.class}, {String.class}, {String.class},
+				{String.class}, {String.class}
+				};//set方法对应的参数类型
+
+		Class<?> _reflectClass = Class.forName("com.github.cruiser.tradeoutside.trade.TradeDcc");
+		TradeDcc reflectClass = (TradeDcc) _reflectClass.newInstance();
+
+		int fieldStartPosition = 0;//用于标识各字段开头位置
+
+		/*
+		 * 使用反射对各字段进行赋值
+		 */
+		for(int indexOfField=0; indexOfField< fieldFixedLength.length; indexOfField++){
 
 			StringBuffer methodName = new StringBuffer();
-			methodName.append("set").append(fieldName[i]);
-			System.out.println("methodName: "+methodName.toString());
-			Method _tmp_method = _tmp.getMethod(methodName.toString(), fieldType[i]);
-			StringBuffer methodValue = new StringBuffer();
-			methodValue.append(oneline.substring(index, index+fieldFixedLength[i]));
-			System.out.println("methodValue: "+methodValue.toString());
-			index+=fieldFixedLength[i]+fillerLength;
-			Object[] parmValue = {methodValue.toString()};
-			_tmp_method.invoke(tmp, parmValue);
-			System.out.println(tmp);
-			System.out.println(tmp.getTxnAmtInDecimal());
+			methodName.append("set").append( fieldName[indexOfField] );
+
+			Method _reflectMethod = _reflectClass.getMethod(methodName.toString(),
+					fieldType[indexOfField]);
+
+			StringBuffer fieldValue = new StringBuffer();
+			fieldValue.append(oneline.substring(fieldStartPosition, fieldStartPosition+fieldFixedLength[indexOfField]));
+
+			fieldStartPosition+=fieldFixedLength[indexOfField]+fillerLength;
+			Object[] parmValue = {fieldValue.toString()};
+			_reflectMethod.invoke(reflectClass, parmValue);
 			
 		}
 		
-		return new TradeDcc();
+		return reflectClass;
 	}
 
-	@Override
-	public List<Trade> getTradeList() {
-		return null;
-	}
 }

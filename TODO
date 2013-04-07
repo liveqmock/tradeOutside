@@ -1,0 +1,20 @@
+object ATOM_CORP ==> ATOM_TRADE
+dccrate
+edcrate
+
+
+object ATOM_TRADE
+busino, actdat ==> trade set
+(busino, termid, actdat ==> trade set)
+total txnamt
+
+trade set
+
+corp trade 1:N
+corp termid N:M
+corp actdat N:M
+
+trade termid N:1
+trade actdat N:M
+
+termid actdat N:M

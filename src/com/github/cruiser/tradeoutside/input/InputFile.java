@@ -3,7 +3,7 @@ package com.github.cruiser.tradeoutside.input;
 import java.util.List;
 import com.github.cruiser.tradeoutside.trade.Trade;
 
-public interface InputFile {
+public abstract class InputFile {
 
-	public List<Trade> getTradeList();
+	public abstract List<Trade> getTradeList(String fileName) throws Exception;
 }

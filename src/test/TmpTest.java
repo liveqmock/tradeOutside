@@ -1,3 +1,4 @@
+package test;
 import org.hibernate.*;
 import org.hibernate.cfg.*;
 

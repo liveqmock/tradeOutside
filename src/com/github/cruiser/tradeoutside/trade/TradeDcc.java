@@ -2,7 +2,7 @@ package com.github.cruiser.tradeoutside.trade;
 
 import java.math.BigDecimal;
 
-public class TradeDcc implements Trade {
+public class TradeDcc extends Trade {
 	
 	private long id;
 
@@ -13,7 +13,7 @@ public class TradeDcc implements Trade {
 	private String acpAdr;/*merchant_name char (40) 商户名称地址，43域*/
 	private String actNo;/* acct_num char (19) 账号，2域*/
 	private String valDat;/*exp_date char (4) 卡有效期，14域（空格）*/
-	private String txnAmt;/*tran_amt char (12) 交易金额，4域*/
+	private BigDecimal txnAmt;/*tran_amt char (12) 交易金额，4域*/
 	private String tips;/*tips char (12) 值为空格*/
 	private String aRspCd;/*auth_no char (6) 授权码，38域*/
 	private String txnDat;/*trans_date char (8) 交易日期，13域*/
@@ -21,8 +21,12 @@ public class TradeDcc implements Trade {
 	private String crdTyp;/*card_flag char (1) V/M/D/J/A*/
 	private String actDat;/*settlement_date char (8) 清算日期 */
 
-	public BigDecimal getTxnAmtInDecimal(){
+	/*public BigDecimal getTxnAmtInDecimal(){
 		return (txnAmt==null?new BigDecimal("0.0"):new BigDecimal(txnAmt)).divide(new BigDecimal("100.0"));
+	}*/
+
+	public BigDecimal getRealTxnAmt(){
+		return txnAmt.divide(new BigDecimal("100.0"));
 	}
 
 	public void setId(long id) {
@@ -89,11 +93,11 @@ public class TradeDcc implements Trade {
 		this.valDat = valDat;
 	}
 
-	public String getTxnAmt() {
+	public BigDecimal getTxnAmt() {
 		return txnAmt;
 	}
 
-	public void setTxnAmt(String txnAmt) {
+	public void setTxnAmt(BigDecimal txnAmt) {
 		this.txnAmt = txnAmt;
 	}
 
