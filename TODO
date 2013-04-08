@@ -1,10 +1,11 @@
-object ATOM_CORP ==> ATOM_TRADE
+object ATOM_CORP
+busiNo
 dccrate
 edcrate
 
+#busino_id, actdat ==> trade set
 
 object ATOM_TRADE
-busino, actdat ==> trade set
 (busino, termid, actdat ==> trade set)
 total txnamt
 

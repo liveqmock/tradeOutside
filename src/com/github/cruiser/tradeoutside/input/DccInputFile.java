@@ -70,9 +70,10 @@ public class DccInputFile extends InputFile {
 			fieldValue.append(oneline.substring(fieldStartPosition, fieldStartPosition+fieldFixedLength[indexOfField]));
 
 			fieldStartPosition+=fieldFixedLength[indexOfField]+fillerLength;
-			Object[] parmValue = {fieldValue.toString()};
+			Object[] parmValue = InputFile.getFieldArray(fieldValue.toString(), fieldType[indexOfField][0]);//= {fieldValue.toString()};
+
 			_reflectMethod.invoke(reflectClass, parmValue);
-			
+
 		}
 		
 		return reflectClass;
