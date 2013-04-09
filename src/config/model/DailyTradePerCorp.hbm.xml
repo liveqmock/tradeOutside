@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.github.cruiser.tradeoutside.model">
+    <class name="Corp" table="CORP">
+        <id name="id" type="java.lang.Long" access="field">
+            <generator class="native"/>
+        </id>
+        
+        <!-- property name="corp"/ -->
+		<property name="actDat"/>
+		<property name="totalDccRate"/>
+		<property name="totalEdcRate"/>
+		<property name="totalTxnAmt"/>
+
+		<map name="termDccRates" table="TERMDCCRATES">
+			<key column="id" foreign-key="id" />
+			<map-key column="termNo" type="string" />
+			<element column="dccRate" type="BigDecimal" />
+		</map>
+
+		<map name="termEdcRates" table="TERMEDCRATES">
+			<key column="id" foreign-key="id" />
+			<map-key column="termNo" type="string" />
+			<element column="edcRate" type="BigDecimal" />
+		</map>
+
+		<map name="termTxnAmts" table="TERMTXNAMTS">
+			<key column="id" foreign-key="id" />
+			<map-key column="termNo" type="string" />
+			<element column="txnAmt" type="BigDecimal" />
+		</map>
+
+    </class>
+</hibernate-mapping>
