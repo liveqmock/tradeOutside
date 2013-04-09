@@ -158,7 +158,7 @@ public class TradeDcc extends Trade {
 		.append("\nacpAdr: ").append(acpAdr)
 		.append("\nactNo: ").append(actNo)
 		.append("\nvalDat: ").append(valDat)
-		.append("\ntxnAmt: ").append(txnAmt)
+		.append("\ntxnAmt: ").append(getRealTxnAmt())
 		.append("\ntips: ").append(tips)
 		.append("\naRspCd: ").append(aRspCd)
 		.append("\ntxnDat: ").append(txnDat)

@@ -1,9 +1,10 @@
 package test;
 
-import org.springframework.orm.hibernate3.HibernateTemplate;
-import org.hibernate.SessionFactory;
 import java.util.*;
-
+import org.hibernate.SessionFactory;
+import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.github.cruiser.tradeoutside.trade.TradeDcc;
 
 public class testDAOImpl implements testDAO {
@@ -21,14 +22,17 @@ public class testDAOImpl implements testDAO {
 	@Override
 	public List<TradeDcc> find(long id) {
 
-		return (List<TradeDcc>)getHtm().find("from TRADEDCC t where t.id like ?", Long.valueOf(id));
+		return (List<TradeDcc>)getHtm().find("from TradeDcc t where t.id = ?", java.lang.Long.valueOf(id));
+//		return (List<TradeDcc>)getHtm().find("from TradeDcc");
 	}
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		List<TradeDcc> test = new testDAOImpl().find(1);
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("config/beans-config.xml");
+		
+		List<TradeDcc> test = ((testDAOImpl)ctx.getBean("testDAO")).find(1);
 		Iterator it = test.iterator();
 		while(it.hasNext()){
 			System.out.println(it.next());

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING/DTD BEAN/EN"
+ "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+    <!-- 使用C3P0数据库实现，定义数据源组件 -->
+    <bean id="dataSource"
+          class="com.mchange.v2.c3p0.ComboPooledDataSource"
+          destroy-method="close">
+
+        <property name="driverClass">
+            <value>net.sourceforge.jtds.jdbc.Driver</value>
+        </property>
+
+        <property name="jdbcUrl">
+            <value>jdbc:jtds:sybase://182.53.15.211:6600/middb</value>
+        </property>
+
+        <property name="user">
+            <value>miduser</value>
+        </property>
+
+        <property name="password">
+            <value>miduser</value>
+        </property>
+
+        <property name="maxPoolSize">
+            <value>40</value>
+        </property>
+
+        <property name="minPoolSize">
+            <value>1</value>
+        </property>
+
+        <property name="initialPoolSize">
+            <value>1</value>
+        </property>
+
+        <property name="maxIdleTime">
+            <value>20</value>
+        </property>
+    </bean>
+
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"
+          destroy-method="destroy">
+        <property name="dataSource">
+            <ref bean="dataSource"/>
+        </property>
+
+        <property name="mappingResources">
+            <list>
+                <value>config/TradeDcc.hbm.xml</value>
+            </list>
+        </property>
+
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">
+                    org.hibernate.dialect.SybaseAnywhereDialect
+                </prop>
+
+                <prop key="hibernate.hbm2dll.auto">
+                    update
+                </prop>
+
+                <prop key="hibernate.show_sql">
+                    true
+                </prop>
+
+                <prop key="hibernate.format_sql">
+                    true
+                </prop>
+
+            </props>
+        </property>
+    </bean>
+
+    <bean id="testDAO" class="test.testDAOImpl">
+        <property name="sessionFactory">
+            <ref bean="sessionFactory"/>
+        </property>
+    </bean>
+</beans>
