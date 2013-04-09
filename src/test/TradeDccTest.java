@@ -4,7 +4,7 @@ import java.util.*;
 import org.hibernate.cfg.*;
 
 import com.github.cruiser.tradeoutside.input.DccInputFile;
-import com.github.cruiser.tradeoutside.trade.TradeDcc;
+import com.github.cruiser.tradeoutside.model.TradeDcc;
 import com.github.cruiser.tradeoutside.trade.*;
 
 public class TradeDccTest {

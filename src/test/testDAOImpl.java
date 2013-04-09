@@ -5,7 +5,8 @@ import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import com.github.cruiser.tradeoutside.trade.TradeDcc;
+
+import com.github.cruiser.tradeoutside.model.TradeDcc;
 
 public class testDAOImpl implements testDAO {
 

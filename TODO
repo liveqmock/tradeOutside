@@ -1,15 +1,31 @@
-object ATOM_CORP
+================================
+object Corp
 busiNo
-dccrate
-edcrate
+dccRate
+edcRate
 
 #busino_id, actdat ==> trade set
+================================
+object DailyTradePerCorp
+    -Corp ref,
+    -termId in,
+    -actDat in,
+    -Trade set ref,
 
-object ATOM_TRADE
-(busino, termid, actdat ==> trade set)
-total txnamt
+    totalTxnamt count,
+    termTxnamt count,
+    
+(busino, actdat ==> total txnamt)
+(busino, actdat, Corp ==> total dccRate)
+(busino, actdat, Corp ==> total edcRate)
+(busino, actdat ==> total trade set)
+(busino, termid, actdat ==> term txnamt)
+(busino, termid, actdat ==> term trade set)
+(busino, actdat, Corp ==> term dccRate)
+(busino, actdat, Corp ==> term edcRate)
 
-trade set
+object Trade
+    (getRealTxnAmt)
 
 corp trade 1:N
 corp termid N:M

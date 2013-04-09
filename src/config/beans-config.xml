@@ -49,7 +49,7 @@
 
         <property name="mappingResources">
             <list>
-                <value>config/TradeDcc.hbm.xml</value>
+                <value>config/model/TradeDcc.hbm.xml</value>
             </list>
         </property>
 

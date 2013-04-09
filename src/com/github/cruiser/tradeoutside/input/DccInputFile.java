@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.math.*;
 
+import com.github.cruiser.tradeoutside.model.TradeDcc;
 import com.github.cruiser.tradeoutside.trade.Trade;
-import com.github.cruiser.tradeoutside.trade.TradeDcc;
 
 public class DccInputFile extends InputFile {
 

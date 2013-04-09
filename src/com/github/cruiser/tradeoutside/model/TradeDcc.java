@@ -1,10 +1,18 @@
-package com.github.cruiser.tradeoutside.trade;
+package com.github.cruiser.tradeoutside.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class TradeDcc extends Trade {
-	
-	private long id;
+/**
+ * 持久化DCC交易明细
+ * @author 顾启明
+ *
+ */
+public class TradeDcc implements Serializable {
+
+	private static final long serialVersionUID = 48L;
+
+	private long id;/*数据库主键*/
 
 	private String txnTim;/*trans_time, char (6) 交易时间，12域*/
 	private String txnCod;/*tran_code char (4) 联机类：PURC  消费 		PRPU  预授权完成 		OFFL  离线   调整类：目前我行调整类交易是手工处理，没有定义， 建议根据实际情况补充新定义*/
@@ -20,10 +28,6 @@ public class TradeDcc extends Trade {
 	private String busiNo;/*merchant_no char (15) 商户号，42域*/
 	private String crdTyp;/*card_flag char (1) V/M/D/J/A*/
 	private String actDat;/*settlement_date char (8) 清算日期 */
-
-	/*public BigDecimal getTxnAmtInDecimal(){
-		return (txnAmt==null?new BigDecimal("0.0"):new BigDecimal(txnAmt)).divide(new BigDecimal("100.0"));
-	}*/
 
 	public BigDecimal getRealTxnAmt(){
 		return txnAmt.divide(new BigDecimal("100.0"));
