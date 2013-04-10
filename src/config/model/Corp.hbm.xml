@@ -5,11 +5,11 @@
 
 <hibernate-mapping package="com.github.cruiser.tradeoutside.model">
     <class name="Corp" table="CORP">
-        <id name="id" type="java.lang.Long" access="field">
+        <id name="id" column="corp_id" type="java.lang.Long" access="field">
             <generator class="native"/>
         </id>
         
-        <property name="busiNo"/>
+        <property name="busiNo" not-null="true" unique="true"/>
 		<property name="dccRate"/>
 		<property name="edcRate"/>
 

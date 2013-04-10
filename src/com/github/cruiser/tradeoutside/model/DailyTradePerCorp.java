@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-public class DailyTradePerCorp implements Serializable {
+public class DailyTradePerCorp implements Serializable, Model {
 	
 	private static final long serialVersionUID = 48L;
 
@@ -22,6 +22,29 @@ public class DailyTradePerCorp implements Serializable {
 	private Map<String, BigDecimal> termEdcRates;/* edc手续费按终端汇总 */
 	private Map<String, BigDecimal> termTxnAmts;/* 终端金额汇总 */
 
+	/*public Set<TradeDcc> getDccTrades(){
+		return null;//TODO
+	}
+
+	public Set<TradeDcc> getEdcTrades(){
+		return null;//TODO
+	}
+	@Deprecated
+	public Set<TradeDcc> getEdcTrades(String termEdc){
+		return null;//TODO
+	}
+	@Deprecated
+	public Set<TradeDcc> getDccTrades(String termDcc){
+		return null;//TODO
+	}
+
+	public Map<String,Set<TradeDcc>> getAllEdcTrades(){
+		return null;//TODO
+	}
+
+	public Map<String,Set<TradeDcc>> getAllDccTrades(){
+		return null;//TODO
+	}*/
 
 	public long getId() {
 		return id;
@@ -111,7 +134,6 @@ public class DailyTradePerCorp implements Serializable {
 	public void setTermTxnAmts(Map<String, BigDecimal> termTxnAmts) {
 		this.termTxnAmts = termTxnAmts;
 	}
-
 
 	public String toString(){
 		StringBuffer output = new StringBuffer();

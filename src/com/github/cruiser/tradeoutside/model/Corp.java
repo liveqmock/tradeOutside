@@ -5,7 +5,12 @@ import java.math.BigDecimal;
 import java.util.Set;
 import java.util.Iterator;
 
-public class Corp implements Serializable {
+/**
+ * 持久化商户
+ * @author 顾启明
+ *
+ */
+public class Corp implements Serializable, Model {
 	
 	private static final long serialVersionUID = 48L;
 
@@ -74,6 +79,22 @@ public class Corp implements Serializable {
 
 	public void setEdcTerminals(Set<String> edcTerminals) {
 		this.edcTerminals = edcTerminals;
+	}
+
+	public boolean equals(Object obj){
+		if(this==obj){
+			return true;
+		}
+		if(obj!=null &&
+				obj.getClass()==Corp.class){
+			Corp corp = (Corp)obj;
+			return this.getBusiNo().equals(corp.getBusiNo());
+		}
+		return false;
+	}
+
+	public int hashCode(){
+		return busiNo.hashCode();
 	}
 
 	public String toString(){

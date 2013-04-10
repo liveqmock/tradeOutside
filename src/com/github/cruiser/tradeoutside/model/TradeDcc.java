@@ -8,7 +8,7 @@ import java.math.BigDecimal;
  * @author 顾启明
  *
  */
-public class TradeDcc implements Serializable {
+public class TradeDcc implements Serializable, Model {
 
 	private static final long serialVersionUID = 48L;
 

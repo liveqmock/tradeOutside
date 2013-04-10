@@ -4,13 +4,18 @@
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping package="com.github.cruiser.tradeoutside.model">
-    <class name="Corp" table="CORP">
-        <id name="id" type="java.lang.Long" access="field">
+    <class name="DailyTradePerCorp" table="DAILY_TRADE_PER_CORP">
+        <id name="id" column="dtpc_id" type="java.lang.Long" access="field">
             <generator class="native"/>
         </id>
         
-        <!-- property name="corp"/ -->
-		<property name="actDat"/>
+        <many-to-one name="corp"
+                     column="corp_id"
+                     class="Corp"
+                     cascade="all"
+                     outer-join="true"/>
+
+		<property name="actDat" not-null="true"/>
 		<property name="totalDccRate"/>
 		<property name="totalEdcRate"/>
 		<property name="totalTxnAmt"/>

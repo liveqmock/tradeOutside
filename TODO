@@ -35,3 +35,7 @@ trade termid N:1
 trade actdat N:M
 
 termid actdat N:M
+
+seNum ==> TradeDcc
+busiNo, txnDat, txnTim ==> TradeDcc
+
