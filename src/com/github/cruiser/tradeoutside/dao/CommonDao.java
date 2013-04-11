@@ -10,14 +10,14 @@ public interface CommonDao<T extends Model> {
 	 * @param id 需加载实例的id值
 	 * @return 指定id对应的Model实例
 	 */
-	Model get(Integer id);
+	Model get(Long id);
 
 	/**
 	 * 持久化指定的Model实例
 	 * @param Model 需要被持久化的Model实例
 	 * @return 实例被持久化后的id值
 	 */
-	Integer save(T model);
+	Long save(T model);
 
 	/**
 	 * 修改指定的Model实例
@@ -35,7 +35,7 @@ public interface CommonDao<T extends Model> {
 	 * 根据id删除Model实例
 	 * @param id 需要被删除的Model实例
 	 */
-	void delete(Integer id);
+	void delete(Long id);
 
 	/**
 	 * 查询全部的Model实例

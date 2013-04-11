@@ -7,48 +7,50 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import com.github.cruiser.tradeoutside.dao.CorpDao;
 import com.github.cruiser.tradeoutside.model.Corp;
 
-public class CorpDaoHibernate extends HibernateDaoSupport implements CorpDao {
+public class CorpDaoHibernate
+	extends HibernateDaoSupport
+	implements CorpDao {
 
 	@Override
-	public Corp get(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Corp get(Long id) {
+
+		return getHibernateTemplate().get(Corp.class, id);
 	}
 
 	@Override
-	public Integer save(Corp object) {
-		// TODO Auto-generated method stub
-		return null;
+	public Long save(Corp object) {
+
+		return (Long)getHibernateTemplate().save(object);
 	}
 
 	@Override
 	public void update(Corp object) {
-		// TODO Auto-generated method stub
+		getHibernateTemplate().update(object);
 
 	}
 
 	@Override
 	public void delete(Corp object) {
-		// TODO Auto-generated method stub
+		getHibernateTemplate().delete(object);
 
 	}
 
 	@Override
-	public void delete(Integer id) {
-		// TODO Auto-generated method stub
+	public void delete(Long id) {
+		delete(get(id));
 
 	}
 
 	@Override
 	public List<Corp> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return (List<Corp>)getHibernateTemplate().find("from Corp");
+
 	}
 
 	@Override
-	public Corp findByBusiNo(String busiNo) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Corp> findByBusiNo(String busiNo) {
+		return (List<Corp>)getHibernateTemplate()
+				.find("from Corp as a where a.busiNo=?", busiNo);
 	}
 
 }

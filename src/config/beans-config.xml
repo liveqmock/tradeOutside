@@ -49,7 +49,9 @@
 
         <property name="mappingResources">
             <list>
-                <value>config/model/TradeDcc.hbm.xml</value>
+                <!-- value>config/model/TradeDcc.hbm.xml</value -->
+                <value>config/model/Corp.hbm.xml</value>
+                <!-- value>config/model/DailyTradePerCorp.hbm.xml</value -->
             </list>
         </property>
 
@@ -60,7 +62,7 @@
                 </prop>
 
                 <prop key="hibernate.hbm2dll.auto">
-                    update
+                    create
                 </prop>
 
                 <prop key="hibernate.show_sql">
@@ -75,9 +77,9 @@
         </property>
     </bean>
 
-    <bean id="testDAO" class="test.testDAOImpl">
+    <!-- bean id="testDAO" class="test.testDAOImpl">
         <property name="sessionFactory">
             <ref bean="sessionFactory"/>
         </property>
-    </bean>
+    </bean -->
 </beans>

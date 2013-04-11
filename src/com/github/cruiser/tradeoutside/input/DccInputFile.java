@@ -20,7 +20,7 @@ public class DccInputFile extends InputFile {
 
 		try{
 			while(null!=(oneline=br.readLine())){
-				trades.add(DccInputFile.fillerByFixedLength(oneline));
+				//trades.add(DccInputFile.fillerByFixedLength(oneline));
 			}
 			return trades;
 		}finally{

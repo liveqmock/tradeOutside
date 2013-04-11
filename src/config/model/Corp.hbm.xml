@@ -4,14 +4,14 @@
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping package="com.github.cruiser.tradeoutside.model">
-    <class name="Corp" table="CORP">
+    <class name="Corp" table="CORP" lazy="false">
         <id name="id" column="corp_id" type="java.lang.Long" access="field">
             <generator class="native"/>
         </id>
         
         <property name="busiNo" not-null="true" unique="true"/>
-		<property name="dccRate"/>
-		<property name="edcRate"/>
+		<property name="dccRate" type="java.math.BigDecimal"/>
+		<property name="edcRate" type="java.math.BigDecimal"/>
 
 		<set name="dccTerminals" table="DCCTERMINALS">
 			<key column="id" foreign-key="id" />
