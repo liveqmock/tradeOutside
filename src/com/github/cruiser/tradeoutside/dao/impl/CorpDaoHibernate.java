@@ -41,6 +41,11 @@ public class CorpDaoHibernate
 
 	}
 
+	public Corp load(Long id) {
+		return getHibernateTemplate().load(Corp.class, id);
+
+	}
+
 	@Override
 	public List<Corp> findAll() {
 		return (List<Corp>)getHibernateTemplate().find("from Corp");

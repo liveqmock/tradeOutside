@@ -5,21 +5,38 @@ import java.math.BigDecimal;
 import java.util.Set;
 import java.util.Iterator;
 
+import javax.persistence.*;
+
+import org.hibernate.annotations.Cache;
+
 /**
  * 持久化商户
  * @author 顾启明
  *
  */
+@Entity
+@Table(name = "T_CORP")
 public class Corp implements Serializable, Model {
 	
 	private static final long serialVersionUID = 48L;
 
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "corp_id")
 	private long id;
 
+	@Basic
 	private String busiNo;/* merchant_no char (15) 商户号，42域 */
+
+	@Basic
 	private BigDecimal dccRate;/* dcc手续费率 */
+
+	@Basic
 	private BigDecimal edcRate;/* edc手续费率 */
+
+	@Embedded
 	private Set<String> dccTerminals;/* dcc终端编号 */
+
+	@Embedded
 	private Set<String> edcTerminals;/* edc终端编号 */
 
 	public long getId() {
@@ -104,15 +121,17 @@ public class Corp implements Serializable, Model {
 		.append("\ndcc手续费率: ").append(dccRate)
 		.append("\nedc手续费率: ").append(edcRate);
 
-		Iterator<String> commonIt = dccTerminals.iterator();
+		Iterator<String> commonIt = getDccTerminals().iterator();
 		while(commonIt.hasNext()){
 			output.append("\ndcc终端编号: ").append(commonIt.next());
 		}
-
-		commonIt = edcTerminals.iterator();
-		while(commonIt.hasNext()){
-			output.append("\nedc终端编号: ").append(commonIt.next());
-		}
+		
+		/*if(null!=dccTerminals){
+			Iterator<String> commonIt = edcTerminals.iterator();
+			while(commonIt.hasNext()){
+				output.append("\nedc终端编号: ").append(commonIt.next());
+			}
+		}*/
 
 		output.append("）");
 		return output.toString();

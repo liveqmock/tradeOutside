@@ -4,7 +4,7 @@
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping package="com.github.cruiser.tradeoutside.model">
-    <class name="Corp" table="CORP" lazy="false">
+    <class name="Corp" table="CORP">
         <id name="id" column="corp_id" type="java.lang.Long" access="field">
             <generator class="native"/>
         </id>
@@ -13,12 +13,12 @@
 		<property name="dccRate" type="java.math.BigDecimal"/>
 		<property name="edcRate" type="java.math.BigDecimal"/>
 
-		<set name="dccTerminals" table="DCCTERMINALS">
+		<set name="dccTerminals" table="DCCTERMINALS" lazy="true">
 			<key column="id" foreign-key="id" />
 			<element type="string" column="dccTerm" />
 		</set>
 
-		<set name="edcTerminals" table="EDCTERMINALS">
+		<set name="edcTerminals" table="EDCTERMINALS" lazy="true">
 			<key column="id" foreign-key="id" />
 			<element type="string" column="edcTerm" />
 		</set>

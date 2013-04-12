@@ -39,3 +39,6 @@ termid actdat N:M
 seNum ==> TradeDcc
 busiNo, txnDat, txnTim ==> TradeDcc
 
+[The complete log4j manual](http://www.qos.ch/shop/products/log4jManual)
+[AnnotationSessionFactoryBean](http://stackoverflow.com/questions/5379791/how-do-you-translate-hibernate-class-mappings-to-a-spring-application-context)
+[Maven + (Spring + Hibernate) Annotation + MySql Example](http://www.mkyong.com/spring/maven-spring-hibernate-annotation-mysql-example/)

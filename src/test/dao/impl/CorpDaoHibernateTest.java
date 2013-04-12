@@ -21,8 +21,8 @@ public class CorpDaoHibernateTest {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Configuration conf = new Configuration().configure();
-		SessionFactory sf = conf.buildSessionFactory();
+		//Configuration conf = new Configuration().configure();
+		//SessionFactory sf = conf.buildSessionFactory();
 		
 
 		Corp corp = new Corp();
@@ -50,8 +50,12 @@ public class CorpDaoHibernateTest {
 			test.delete(corp);
 		}*/
 
-		test.delete(corp);
+		//test.delete(corp);
+		//test.delete(new Long("1"));
+		//System.out.println(corp);
 		//test.save(corp);
+		//corp.setId(new Long("7"));
+		//test.delete(corp);
 		
 		List<Corp> corps = test.findAll();
 		Iterator<Corp> it = corps.iterator();
