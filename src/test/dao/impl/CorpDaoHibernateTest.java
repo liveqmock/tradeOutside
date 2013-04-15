@@ -9,8 +9,10 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.cfg.AnnotationConfiguration;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean;
 
 import com.github.cruiser.tradeoutside.dao.impl.CorpDaoHibernate;
 import com.github.cruiser.tradeoutside.model.Corp;
@@ -22,7 +24,8 @@ public class CorpDaoHibernateTest {
 	 */
 	public static void main(String[] args) {
 		//Configuration conf = new Configuration().configure();
-		//SessionFactory sf = conf.buildSessionFactory();
+//		Configuration conf = new AnnotationConfiguration().configure();
+//		SessionFactory sf = conf.buildSessionFactory();
 		
 
 		Corp corp = new Corp();
@@ -42,6 +45,8 @@ public class CorpDaoHibernateTest {
 			= new ClassPathXmlApplicationContext(
 					"config/dao-config.xml",
 					"config/beans-config.xml");
+		//AnnotationSessionFactoryBean asfb = ctx.getBean("sessionFactory", AnnotationSessionFactoryBean.class);
+		//asfb.getConfiguration();
 		CorpDaoHibernate test
 			= ctx.getBean("corp", CorpDaoHibernate.class);
 		//System.out.println(test.findByBusiNo(corp.getBusiNo()));

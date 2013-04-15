@@ -7,7 +7,8 @@ import java.util.Iterator;
 
 import javax.persistence.*;
 
-import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 /**
  * 持久化商户
@@ -15,7 +16,8 @@ import org.hibernate.annotations.Cache;
  *
  */
 @Entity
-@Table(name = "T_CORP")
+@Table(name = "CORP",
+	uniqueConstraints = {@UniqueConstraint(columnNames={"busiNo"})})
 public class Corp implements Serializable, Model {
 	
 	private static final long serialVersionUID = 48L;
@@ -33,10 +35,16 @@ public class Corp implements Serializable, Model {
 	@Basic
 	private BigDecimal edcRate;/* edc手续费率 */
 
-	@Embedded
+	@ElementCollection
+	@CollectionTable(name="DCCTERMINALS", joinColumns=@JoinColumn(name="id"))
+	@Column(name="dccTerm")
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private Set<String> dccTerminals;/* dcc终端编号 */
 
-	@Embedded
+	@ElementCollection
+	@CollectionTable(name="EDCTERMINALS", joinColumns=@JoinColumn(name="id"))
+	@Column(name="edcTerm")
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private Set<String> edcTerminals;/* edc终端编号 */
 
 	public long getId() {
@@ -68,7 +76,6 @@ public class Corp implements Serializable, Model {
 		this.dccRate = dccRate;
 	}
 
-
 	public BigDecimal getEdcRate() {
 		return edcRate;
 	}
@@ -77,7 +84,6 @@ public class Corp implements Serializable, Model {
 	public void setEdcRate(BigDecimal edcRate) {
 		this.edcRate = edcRate;
 	}
-
 
 	public Set<String> getDccTerminals() {
 		return dccTerminals;
