@@ -43,4 +43,9 @@ public interface CommonDao<T extends Model> {
 	 */
 	List<T> findAll();
 
+	/**
+	 * 刷新挂起
+	 */
+	void flush();
+
 }

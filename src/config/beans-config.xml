@@ -40,8 +40,6 @@
         </property>
     </bean>
 
-    <!-- bean id="Corp" class="com.github.cruiser.tradeoutside.model.Corp" / -->
-
     <bean id="sessionFactory"
           class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean"
           destroy-method="destroy">
@@ -50,14 +48,10 @@
             <ref bean="dataSource"/>
         </property>
 
-        <!-- property name="mappingResources">
-            <ref bean="Corp" />
-
-        </property -->
-
 		<property name="annotatedClasses">
 			<list>
 				<value>com.github.cruiser.tradeoutside.model.Corp</value>
+				<value>com.github.cruiser.tradeoutside.model.TradeDcc</value>
 			</list>
 		</property>
 
@@ -82,10 +76,4 @@
             </props>
         </property>
     </bean>
-
-    <!-- bean id="testDAO" class="test.testDAOImpl">
-        <property name="sessionFactory">
-            <ref bean="sessionFactory"/>
-        </property>
-    </bean -->
 </beans>

@@ -3,17 +3,15 @@
  "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
     <bean id="corp"
-		class="com.github.cruiser.tradeoutside.dao.impl.CorpDaoHibernate"
-		lazy-init="true">
+		class="com.github.cruiser.tradeoutside.dao.impl.CorpDaoHibernate">
         <property name="sessionFactory">
             <ref bean="sessionFactory"/>
         </property>
     </bean>
-    <!-- bean id="dailyTradePerCorp"
-		class="com.github.cruiser.tradeoutside.dao.impl.CorpDaoHibernate"
-		lazy-init="true">
+    <bean id="tradeDcc"
+		class="com.github.cruiser.tradeoutside.dao.impl.TradeDccDaoHibernate">
         <property name="sessionFactory">
             <ref bean="sessionFactory"/>
         </property>
-    </bean -->
+    </bean>
 </beans>

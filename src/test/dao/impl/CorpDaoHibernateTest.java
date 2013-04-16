@@ -6,13 +6,8 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.List;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.cfg.AnnotationConfiguration;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean;
 
 import com.github.cruiser.tradeoutside.dao.impl.CorpDaoHibernate;
 import com.github.cruiser.tradeoutside.model.Corp;
@@ -23,10 +18,6 @@ public class CorpDaoHibernateTest {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		//Configuration conf = new Configuration().configure();
-//		Configuration conf = new AnnotationConfiguration().configure();
-//		SessionFactory sf = conf.buildSessionFactory();
-		
 
 		Corp corp = new Corp();
 		corp.setBusiNo("1231231234");
@@ -45,25 +36,25 @@ public class CorpDaoHibernateTest {
 			= new ClassPathXmlApplicationContext(
 					"config/dao-config.xml",
 					"config/beans-config.xml");
-		//AnnotationSessionFactoryBean asfb = ctx.getBean("sessionFactory", AnnotationSessionFactoryBean.class);
-		//asfb.getConfiguration();
-		CorpDaoHibernate test
+		CorpDaoHibernate corpDao
 			= ctx.getBean("corp", CorpDaoHibernate.class);
-		//System.out.println(test.findByBusiNo(corp.getBusiNo()));
-		/*if(corp.equals(test.findByBusiNo(corp.getBusiNo()))){
-			System.out.println("corp已存在");
-			test.delete(corp);
-		}*/
 
-		//test.delete(corp);
-		//test.delete(new Long("1"));
-		//System.out.println(corp);
-		//test.save(corp);
-		//corp.setId(new Long("7"));
-		//test.delete(corp);
-		
-		List<Corp> corps = test.findAll();
+		List<Corp> corps = corpDao.findAll();
 		Iterator<Corp> it = corps.iterator();
+		
+		while(it.hasNext()){
+			Corp oldCorp = it.next();
+			System.out.println("删除"+oldCorp);
+			oldCorp.getDccTerminals().add("000000");
+			corpDao.update(oldCorp);
+			//corpDao.delete(oldCorp);
+
+		}
+
+		//corpDao.save(corp);
+
+		corps = corpDao.findAll();
+		it = corps.iterator();
 		
 		while(it.hasNext()){
 			System.out.println(it.next());

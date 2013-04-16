@@ -1,3 +1,7 @@
+ModelDaoHibernate<CommonDaoHibernate<HibernateDaoSupport, CommonDao
+
+
+
 ================================
 object Corp
 busiNo

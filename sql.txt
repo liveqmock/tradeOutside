@@ -1,0 +1,56 @@
+
+    drop table CORP
+
+    drop table DCCTERMINALS
+
+    drop table EDCTERMINALS
+
+    drop table TRADEDCC
+
+    create table CORP (
+        corp_id numeric(19,0) identity not null,
+        busiNo varchar(15) null,
+        dccRate numeric(19,2) null,
+        edcRate numeric(19,2) null,
+        primary key (corp_id),
+        unique (busiNo)
+    )
+
+    create table DCCTERMINALS (
+        corp_id numeric(19,0) not null,
+        dccTerm varchar(8) null
+    )
+
+    create table EDCTERMINALS (
+        corp_id numeric(19,0) not null,
+        edcTerm varchar(8) null
+    )
+
+    create table TRADEDCC (
+        dcc_id numeric(19,0) identity not null,
+        aRspCd varchar(6) null,
+        acpAdr varchar(40) null,
+        actDat varchar(8) null,
+        actNo varchar(19) null,
+        busiNo varchar(15) null,
+        crdTyp varchar(1) null,
+        seqNum varchar(12) null,
+        termId varchar(8) null,
+        tips varchar(12) null,
+        txnAmt numeric(19,2) null,
+        txnCod varchar(4) null,
+        txnDat varchar(8) null,
+        txnTim varchar(6) null,
+        valDat varchar(4) null,
+        primary key (dcc_id)
+    )
+
+    alter table DCCTERMINALS 
+        add constraint FK11B61E33DC14EFDD 
+        foreign key (corp_id) 
+        references CORP
+
+    alter table EDCTERMINALS 
+        add constraint FKAE4C7653DC14EFDD 
+        foreign key (corp_id) 
+        references CORP

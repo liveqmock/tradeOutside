@@ -4,7 +4,7 @@ import java.util.List;
 import com.github.cruiser.tradeoutside.model.DailyTradePerCorp;
 import com.github.cruiser.tradeoutside.model.Corp;
 
-public interface DailyTradePerCorpDao extends CommonDao<DailyTradePerCorp> {
+public interface DailyTradePerCorpDao {
 
 	/**
 	 * 根据商户编号查询对应DailyTradePerCorp实例

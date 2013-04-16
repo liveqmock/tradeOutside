@@ -4,12 +4,13 @@ import java.util.List;
 
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+import com.github.cruiser.tradeoutside.dao.CommonDao;
 import com.github.cruiser.tradeoutside.dao.CorpDao;
 import com.github.cruiser.tradeoutside.model.Corp;
 
 public class CorpDaoHibernate
 	extends HibernateDaoSupport
-	implements CorpDao {
+	implements CorpDao, CommonDao<Corp>{
 
 	@Override
 	public Corp get(Long id) {
@@ -48,7 +49,8 @@ public class CorpDaoHibernate
 
 	@Override
 	public List<Corp> findAll() {
-		return (List<Corp>)getHibernateTemplate().find("from Corp");
+		return (List<Corp>)getHibernateTemplate()
+				.find("from Corp");
 
 	}
 
@@ -56,6 +58,12 @@ public class CorpDaoHibernate
 	public List<Corp> findByBusiNo(String busiNo) {
 		return (List<Corp>)getHibernateTemplate()
 				.find("from Corp as a where a.busiNo=?", busiNo);
+	}
+
+	@Override
+	public void flush() {
+		getHibernateTemplate().flush();
+		
 	}
 
 }

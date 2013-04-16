@@ -19,14 +19,14 @@ import org.hibernate.annotations.LazyCollectionOption;
 @Table(name = "CORP",
 	uniqueConstraints = {@UniqueConstraint(columnNames={"busiNo"})})
 public class Corp implements Serializable, Model {
-	
+
 	private static final long serialVersionUID = 48L;
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "corp_id")
-	private long id;
+	private long corp_id;
 
-	@Basic
+	@Basic @Column(length=15)
 	private String busiNo;/* merchant_no char (15) 商户号，42域 */
 
 	@Basic
@@ -36,24 +36,24 @@ public class Corp implements Serializable, Model {
 	private BigDecimal edcRate;/* edc手续费率 */
 
 	@ElementCollection
-	@CollectionTable(name="DCCTERMINALS", joinColumns=@JoinColumn(name="id"))
-	@Column(name="dccTerm")
+	@CollectionTable(name="DCCTERMINALS", joinColumns=@JoinColumn(name="corp_id"))
+	@Column(name="dccTerm", length=8)
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private Set<String> dccTerminals;/* dcc终端编号 */
 
 	@ElementCollection
-	@CollectionTable(name="EDCTERMINALS", joinColumns=@JoinColumn(name="id"))
-	@Column(name="edcTerm")
+	@CollectionTable(name="EDCTERMINALS", joinColumns=@JoinColumn(name="corp_id"))
+	@Column(name="edcTerm", length=8)
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private Set<String> edcTerminals;/* edc终端编号 */
 
 	public long getId() {
-		return id;
+		return corp_id;
 	}
 
 
 	public void setId(long id) {
-		this.id = id;
+		this.corp_id = id;
 	}
 
 
@@ -132,12 +132,10 @@ public class Corp implements Serializable, Model {
 			output.append("\ndcc终端编号: ").append(commonIt.next());
 		}
 		
-		/*if(null!=dccTerminals){
-			Iterator<String> commonIt = edcTerminals.iterator();
-			while(commonIt.hasNext()){
-				output.append("\nedc终端编号: ").append(commonIt.next());
-			}
-		}*/
+		commonIt = getEdcTerminals().iterator();
+		while(commonIt.hasNext()){
+			output.append("\nedc终端编号: ").append(commonIt.next());
+		}
 
 		output.append("）");
 		return output.toString();
