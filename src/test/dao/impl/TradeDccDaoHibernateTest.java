@@ -44,7 +44,7 @@ public class TradeDccDaoHibernateTest {
 		TradeDccDaoHibernate modelObjectDao
 			= ctx.getBean("tradeDcc", TradeDccDaoHibernate.class);
 
-		List<TradeDcc> modelObjects = modelObjectDao.findAll();
+		/*List<TradeDcc> modelObjects = modelObjectDao.findAll();
 		Iterator<TradeDcc> it = modelObjects.iterator();
 		
 		while(it.hasNext()){
@@ -53,10 +53,13 @@ public class TradeDccDaoHibernateTest {
 
 		}
 
-		modelObjectDao.save(modelObject);
+		modelObjectDao.save(modelObject);*/
 
-		modelObjects = modelObjectDao.findAll();
-		it = modelObjects.iterator();
+		List<TradeDcc> modelObjects = modelObjectDao.findByBusiNoTermActdat("301310058126686", "26686004", "20120503");
+		//List<TradeDcc> modelObjects = modelObjectDao.findByBusiNoActdat("301310058126686", "20120503");
+		//List<TradeDcc> modelObjects = modelObjectDao.findByBusiNoActdat("xxx", "20120503");
+		//modelObjects = modelObjectDao.findAll();
+		Iterator<TradeDcc> it = modelObjects.iterator();
 		
 		while(it.hasNext()){
 			System.out.println(it.next());

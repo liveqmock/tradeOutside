@@ -68,7 +68,7 @@ public class TradeDccDaoHibernate
 							@Override
 							public Object doInHibernate(Session session)
 									throws HibernateException, SQLException {
-								return session.createQuery("select t from TradeDcc " +
+								return session.createQuery("select t from TradeDcc t " +
 										"where t.busiNo = :busiNo" +
 										" and t.actDat = :actDat")
 										.setString("busiNo", busiNo)
@@ -93,7 +93,7 @@ public class TradeDccDaoHibernate
 							@Override
 							public Object doInHibernate(Session session)
 									throws HibernateException, SQLException {
-								return session.createQuery("select t from TradeDcc " +
+								return session.createQuery("select t from TradeDcc t " +
 										"where t.busiNo = :busiNo" +
 										" and t.actDat = :actDat" +
 										" and t.termId = :termId")
