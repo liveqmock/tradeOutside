@@ -28,6 +28,7 @@ public class CreateTables {
 		AnnotationConfiguration test = new AnnotationConfiguration();
 		test.addAnnotatedClass(Corp.class);
 		test.addAnnotatedClass(TradeDcc.class);
+		test.addAnnotatedClass(DailyTradePerCorp.class);
 		test.setProperty("hibernate.connection.driver_class", "net.sourceforge.jtds.jdbc.Driver");
 		test.setProperty("hibernate.connection.url", "jdbc:jtds:sybase://182.53.15.211:6600/middb");
 		test.setProperty("hibernate.connection.username", "miduser");

@@ -7,44 +7,86 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.Basic;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapKeyColumn;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
+@Entity
+@Table(name = "DAILY_TRADE")
+/*,
+	uniqueConstraints = {@UniqueConstraint(columnNames={"corp", "actDat"})})*/
 public class DailyTradePerCorp implements Serializable, Model {
 	
 	private static final long serialVersionUID = 48L;
 
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "daily_trade_id")
 	private long id;
 
+//	@JoinColumn(referencedColumnName = "daily_trade_id")
+	@ManyToOne
 	private Corp corp;/* 商户 */
+
+	@Basic @Column(length=8)
 	private String actDat;/* 会计日期 */
+
+	@Basic
 	private BigDecimal totalDccRate;/* dcc手续费汇总 */
+
+	@Basic
 	private BigDecimal totalEdcRate;/* edc手续费汇总 */
+
+	@Basic
 	private BigDecimal totalTxnAmt;/* 交易总金额 */
-	private Map<String, BigDecimal> termDccRates;/* dcc手续费按终端汇总 */
-	private Map<String, BigDecimal> termEdcRates;/* edc手续费按终端汇总 */
-	private Map<String, BigDecimal> termTxnAmts;/* 终端金额汇总 */
 
-	/*public Set<TradeDcc> getDccTrades(){
-		return null;//TODO
-	}
 
-	public Set<TradeDcc> getEdcTrades(){
-		return null;//TODO
-	}
-	@Deprecated
-	public Set<TradeDcc> getEdcTrades(String termEdc){
-		return null;//TODO
-	}
-	@Deprecated
-	public Set<TradeDcc> getDccTrades(String termDcc){
-		return null;//TODO
-	}
+	/** dcc手续费按终端汇总 */
+	@ElementCollection
+	@CollectionTable(
+			name = "TERM_DCC_RATES",
+			joinColumns = @JoinColumn(name = "daily_trade_id")
+			)
+	@MapKeyColumn(name="termNo", nullable=false)
+	@Column(name = "rate", columnDefinition = "numeric(19,2) default 0.0")
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private Map<String, BigDecimal> termDccRates;
 
-	public Map<String,Set<TradeDcc>> getAllEdcTrades(){
-		return null;//TODO
-	}
 
-	public Map<String,Set<TradeDcc>> getAllDccTrades(){
-		return null;//TODO
-	}*/
+	/** edc手续费按终端汇总 */
+	@ElementCollection
+	@CollectionTable(
+			name = "TERM_EDC_RATES",
+			joinColumns = @JoinColumn(name = "daily_trade_id")
+			)
+	@MapKeyColumn(name="termNo", nullable=false)
+	@Column(name = "rate", columnDefinition = "numeric(19,2) default 0.0")
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private Map<String, BigDecimal> termEdcRates;
+
+
+	/** 终端金额汇总 */
+	@ElementCollection
+	@CollectionTable(
+			name = "TERM_TXNAMTS",
+			joinColumns = @JoinColumn(name = "daily_trade_id")
+			)
+	@MapKeyColumn(name="termNo", nullable=false)
+	@Column(name = "rate", columnDefinition = "numeric(19,2) default 0.0")
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private Map<String, BigDecimal> termTxnAmts;
+
 
 	public long getId() {
 		return id;
@@ -56,14 +98,14 @@ public class DailyTradePerCorp implements Serializable, Model {
 	}
 
 
-	public Corp getCorp() {
+	/*public Corp getCorp() {
 		return corp;
 	}
 
 
 	public void setCorp(Corp corp) {
 		this.corp = corp;
-	}
+	}*/
 
 
 	public String getActDat() {
@@ -135,7 +177,7 @@ public class DailyTradePerCorp implements Serializable, Model {
 		this.termTxnAmts = termTxnAmts;
 	}
 
-	public String toString(){
+	/*public String toString(){
 		StringBuffer output = new StringBuffer();
 		output.append("商户每天交易统计：（")
 		.append("\n商户号: ").append(corp.getBusiNo())
@@ -168,5 +210,5 @@ public class DailyTradePerCorp implements Serializable, Model {
 
 		return output.toString();
 
-	}
+	}*/
 }
