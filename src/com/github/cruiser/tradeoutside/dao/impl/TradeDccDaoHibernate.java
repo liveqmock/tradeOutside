@@ -14,7 +14,7 @@ import com.github.cruiser.tradeoutside.model.TradeDcc;
 
 public class TradeDccDaoHibernate
 	extends HibernateDaoSupport
-	implements TradeDccDao, CommonDao<TradeDcc> {
+	implements TradeDccDao {
 
 	@Override
 	public TradeDcc get(Long id) {

@@ -4,13 +4,12 @@ import java.util.List;
 
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-import com.github.cruiser.tradeoutside.dao.CommonDao;
 import com.github.cruiser.tradeoutside.dao.CorpDao;
 import com.github.cruiser.tradeoutside.model.Corp;
 
 public class CorpDaoHibernate
 	extends HibernateDaoSupport
-	implements CorpDao, CommonDao<Corp>{
+	implements CorpDao{
 
 	@Override
 	public Corp get(Long id) {

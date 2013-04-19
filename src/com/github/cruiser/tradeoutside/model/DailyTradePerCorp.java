@@ -98,14 +98,14 @@ public class DailyTradePerCorp implements Serializable, Model {
 	}
 
 
-	/*public Corp getCorp() {
+	public Corp getCorp() {
 		return corp;
 	}
 
 
 	public void setCorp(Corp corp) {
 		this.corp = corp;
-	}*/
+	}
 
 
 	public String getActDat() {
@@ -177,7 +177,7 @@ public class DailyTradePerCorp implements Serializable, Model {
 		this.termTxnAmts = termTxnAmts;
 	}
 
-	/*public String toString(){
+	public String toString(){
 		StringBuffer output = new StringBuffer();
 		output.append("商户每天交易统计：（")
 		.append("\n商户号: ").append(corp.getBusiNo())
@@ -210,5 +210,5 @@ public class DailyTradePerCorp implements Serializable, Model {
 
 		return output.toString();
 
-	}*/
+	}
 }

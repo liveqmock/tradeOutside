@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.github.cruiser.tradeoutside.model.Corp;
 
-public interface CorpDao {
+public interface CorpDao extends CommonDao<Corp> {
 
 	/**
 	 * 根据商户编号查询对应Corp实例

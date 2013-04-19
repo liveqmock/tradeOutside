@@ -3,7 +3,7 @@ package com.github.cruiser.tradeoutside.dao;
 import java.util.List;
 import com.github.cruiser.tradeoutside.model.TradeDcc;
 
-public interface TradeDccDao {
+public interface TradeDccDao extends CommonDao<TradeDcc> {
 
 	/**
 	 * 根据商户编号查询对应TradeDcc实例

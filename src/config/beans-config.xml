@@ -52,6 +52,7 @@
 			<list>
 				<value>com.github.cruiser.tradeoutside.model.Corp</value>
 				<value>com.github.cruiser.tradeoutside.model.TradeDcc</value>
+				<value>com.github.cruiser.tradeoutside.model.DailyTradePerCorp</value>
 			</list>
 		</property>
 
