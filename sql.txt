@@ -30,8 +30,9 @@
         totalDccRate numeric(19,2) null,
         totalEdcRate numeric(19,2) null,
         totalTxnAmt numeric(19,2) null,
-        corp_corp_id numeric(19,0) null,
-        primary key (daily_trade_id)
+        corp_id_fk numeric(19,0) null,
+        primary key (daily_trade_id),
+        unique (corp_id_fk, actDat)
     )
 
     create table DCCTERMINALS (
@@ -46,21 +47,21 @@
 
     create table TERM_DCC_RATES (
         daily_trade_id numeric(19,0) not null,
-        rate numeric(19,2) default 0.0 null,
+        dccRate numeric(19,2) default 0.0 null,
         termNo varchar(255) not null,
         primary key (daily_trade_id, termNo)
     )
 
     create table TERM_EDC_RATES (
         daily_trade_id numeric(19,0) not null,
-        rate numeric(19,2) default 0.0 null,
+        edcRate numeric(19,2) default 0.0 null,
         termNo varchar(255) not null,
         primary key (daily_trade_id, termNo)
     )
 
     create table TERM_TXNAMTS (
         daily_trade_id numeric(19,0) not null,
-        rate numeric(19,2) default 0.0 null,
+        txnAmt numeric(19,2) default 0.0 null,
         termNo varchar(255) not null,
         primary key (daily_trade_id, termNo)
     )
@@ -85,8 +86,8 @@
     )
 
     alter table DAILY_TRADE 
-        add constraint FKBCAF237E9825FC48 
-        foreign key (corp_corp_id) 
+        add constraint FKBCAF237E744CFBA1 
+        foreign key (corp_id_fk) 
         references CORP
 
     alter table DCCTERMINALS 
