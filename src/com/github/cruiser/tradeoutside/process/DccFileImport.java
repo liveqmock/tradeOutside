@@ -2,30 +2,68 @@ package com.github.cruiser.tradeoutside.process;
 
 import java.io.*;
 import java.lang.reflect.*;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Set;
 import java.math.*;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.github.cruiser.tradeoutside.dao.impl.TradeDccDaoHibernate;
-import com.github.cruiser.tradeoutside.model.TradeDcc;
+import com.github.cruiser.tradeoutside.dao.impl.*;
+import com.github.cruiser.tradeoutside.model.*;
 
 public class DccFileImport {
 
-    public void excute(String fileName) throws FileNotFoundException{
+
+    public void importFile(String fileName) throws FileNotFoundException{
         ApplicationContext ctx = new ClassPathXmlApplicationContext(
                 "config/dao-config.xml", "config/beans-config.xml");
         TradeDccDaoHibernate modelObjectDao = ctx.getBean("tradeDcc",
                 TradeDccDaoHibernate.class);
 
         List<TradeDcc> trades = getTradeList(fileName);
+
         for(Iterator<TradeDcc> itTrades = trades.iterator();
             itTrades.hasNext();){
 
-            modelObjectDao.save(itTrades.next());
+            TradeDcc tradeDcc = itTrades.next();
+            //持久化TradeDcc类
+            modelObjectDao.save(tradeDcc);
+            
+            //持久化Corp类
+            CorpDaoHibernate corpDao = ctx.getBean("corp",
+                    CorpDaoHibernate.class);
+
+            List<Corp> corps = corpDao.findByBusiNo(tradeDcc.getBusiNo());
+            Corp corp;
+            Set<String> dccTerminals;
+            if(corps.size()==1){
+                corp = corps.get(1);
+
+                dccTerminals = corp.getDccTerminals();
+                if(!dccTerminals.contains(tradeDcc.getTermId())){
+                    dccTerminals.add(tradeDcc.getTermId());
+                }
+                
+            }else if(corps.size()==0){
+                corp = new Corp();
+                corp.setBusiNo(tradeDcc.getBusiNo());
+                dccTerminals = new HashSet<String>();
+                dccTerminals.add(tradeDcc.getTermId());
+
+            }else{
+                throw new FileNotFoundException("corps.size > 1");
+            }
+            corp.setDccTerminals(dccTerminals);
+            corpDao.save(corp);
+
+            //持久化DailyTradePerCorp类
+            DailyTradePerCorpDaoHibernate dailyTradePerCorpDao = ctx.getBean("dailyTradePerCorp",
+                    DailyTradePerCorpDaoHibernate.class);
+            
 
         }
 
@@ -103,7 +141,7 @@ public class DccFileImport {
 
             fieldStartPosition += fieldFixedLength[indexOfField] + fillerLength;
             Object[] parmValue = getFieldArray(fieldValue.toString(),
-                    fieldType[indexOfField]);// = {fieldValue.toString()};
+                    fieldType[indexOfField]);
 
             _reflectMethod.invoke(reflectClass, parmValue);
 

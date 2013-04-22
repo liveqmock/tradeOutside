@@ -19,7 +19,7 @@ public class DccInputFileTest {
      */
     public static void main(String[] args) throws Exception {
 
-        new DccFileImport().excute("tmp/BOCOM_PIF_20120524.txt");
+        new DccFileImport().importFile("tmp/BOCOM_PIF_20120524.txt");
 
 
         /*Configuration conf = new Configuration().configure();

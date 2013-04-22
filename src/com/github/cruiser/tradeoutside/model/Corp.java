@@ -32,9 +32,11 @@ public class Corp implements Serializable, Model {
     private String busiNo;/* merchant_no char (15) 商户号，42域 */
 
     @Basic
+    @Column(columnDefinition = "numeric(19,2) default 0.0")
     private BigDecimal dccRate;/* dcc手续费率 */
 
     @Basic
+    @Column(columnDefinition = "numeric(19,2) default 0.0")
     private BigDecimal edcRate;/* edc手续费率 */
 
     @ElementCollection
