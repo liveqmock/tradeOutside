@@ -28,6 +28,12 @@ public class DailyTradePerCorpDaoHibernate extends HibernateDaoSupport
     }
 
     @Override
+    public void saveOrUpdate(DailyTradePerCorp object) {
+
+        getHibernateTemplate().saveOrUpdate(object);
+    }
+
+    @Override
     public void update(DailyTradePerCorp object) {
         getHibernateTemplate().update(object);
 
@@ -80,8 +86,26 @@ public class DailyTradePerCorpDaoHibernate extends HibernateDaoSupport
             String startdate, String endate) {
 
         return getHibernateTemplate().find(
-                "from DailyTradePerCorp as d " + "where d.Corp=?"
-                        + " and d.actdat>=?" + " and d.actdat<=?", corp,
+                "from DailyTradePerCorp as d where d.Corp=?"
+                        + " and d.actdat>=? and d.actdat<=?", corp,
+                startdate, endate);
+    }
+
+    @Override
+    public List<DailyTradePerCorp> findByActdat(String actdat) {
+
+        return getHibernateTemplate().find(
+                "from DailyTradePerCorp as d where d.actdat=?",
+                actdat
+                );
+    }
+
+    @Override
+    public List<DailyTradePerCorp> findByActdat(String startdate, String endate) {
+
+        return getHibernateTemplate().find(
+                "from DailyTradePerCorp as d" +
+                " where d.actdat>=? and d.actdat<=?",
                 startdate, endate);
     }
 

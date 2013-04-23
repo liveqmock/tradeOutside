@@ -6,6 +6,15 @@ import com.github.cruiser.tradeoutside.model.TradeDcc;
 public interface TradeDccDao extends CommonDao<TradeDcc> {
 
     /**
+     * 根据会计日期查询对应TradeDcc实例
+     * 
+     * @param actdat
+     *            会计日期
+     * @return 对应的TradeDcc实例
+     */
+    List<TradeDcc> findByActdat(String actDat);
+
+    /**
      * 根据商户编号查询对应TradeDcc实例
      * 
      * @param busiNo
@@ -14,7 +23,7 @@ public interface TradeDccDao extends CommonDao<TradeDcc> {
      *            会计日期
      * @return 对应的TradeDcc实例
      */
-    List<TradeDcc> findByBusiNoActdat(String busiNo, String actdat);
+    List<TradeDcc> findByBusiNoActdat(String busiNo, String actDat);
 
     /**
      * 根据商户编号查询对应TradeDcc实例
@@ -28,5 +37,5 @@ public interface TradeDccDao extends CommonDao<TradeDcc> {
      * @return 对应的TradeDcc实例
      */
     List<TradeDcc> findByBusiNoTermActdat(String busiNo, String termNo,
-            String actdat);
+            String actDat);
 }

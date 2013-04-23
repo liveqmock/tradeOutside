@@ -1,6 +1,7 @@
 package com.github.cruiser.tradeoutside.dao;
 
 import java.util.List;
+
 import com.github.cruiser.tradeoutside.model.Model;
 
 public interface CommonDao<T extends Model> {
@@ -22,6 +23,12 @@ public interface CommonDao<T extends Model> {
      * @return 实例被持久化后的id值
      */
     Long save(T model);
+
+    /**
+     * 修改或者更新Model实例
+     * @param object
+     */
+    void saveOrUpdate(T model);
 
     /**
      * 修改指定的Model实例

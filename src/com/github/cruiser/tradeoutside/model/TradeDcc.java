@@ -89,6 +89,18 @@ public class TradeDcc implements Serializable, Model {
     @Column(length = 8)
     private String actDat;/* settlement_date char (8) 清算日期 */
 
+    @Basic
+    @Column(length = 8)
+    private String insertDate;/* 文件日期 */
+
+    public String getInsertDate() {
+        return insertDate;
+    }
+
+    public void setInsertDate(String insertDate) {
+        this.insertDate = insertDate;
+    }
+
     public BigDecimal getRealTxnAmt() {
         return txnAmt.divide(new BigDecimal("100.0"));
     }

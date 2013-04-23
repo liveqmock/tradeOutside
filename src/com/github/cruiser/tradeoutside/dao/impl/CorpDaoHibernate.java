@@ -22,6 +22,12 @@ public class CorpDaoHibernate extends HibernateDaoSupport implements CorpDao {
     }
 
     @Override
+    public void saveOrUpdate(Corp object) {
+
+        getHibernateTemplate().saveOrUpdate(object);
+    }
+
+    @Override
     public void update(Corp object) {
         getHibernateTemplate().update(object);
 

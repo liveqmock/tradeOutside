@@ -18,8 +18,8 @@
     create table CORP (
         corp_id numeric(19,0) identity not null,
         busiNo varchar(15) null,
-        dccRate numeric(19,2) null,
-        edcRate numeric(19,2) null,
+        dccRate numeric(19,2) default 0.0 null,
+        edcRate numeric(19,2) default 0.0 null,
         primary key (corp_id),
         unique (busiNo)
     )
