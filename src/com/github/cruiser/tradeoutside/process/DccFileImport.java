@@ -2,14 +2,15 @@ package com.github.cruiser.tradeoutside.process;
 
 import java.io.*;
 import java.lang.reflect.*;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Set;
 import java.math.*;
 
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.github.cruiser.tradeoutside.dao.CorpDao;
@@ -20,7 +21,7 @@ import com.github.cruiser.tradeoutside.model.*;
 
 public class DccFileImport {
 
-    private String insertDate;
+    private String filDat;
     private ClassPathXmlApplicationContext context;
     private TradeDccDao tradeDccDao;
     private CorpDao corpDao;
@@ -29,8 +30,8 @@ public class DccFileImport {
     @SuppressWarnings("unused")
     private DccFileImport(){};
 
-    public DccFileImport(String insertDate){
-        this.insertDate = insertDate;
+    public DccFileImport(String filDat){
+        this.filDat = filDat;
         
         this.context = new ClassPathXmlApplicationContext(
             "config/dao-config.xml", "config/beans-config.xml");
@@ -51,7 +52,8 @@ public class DccFileImport {
 
         //先清除原有数据
         //清除tradedcc数据表数据，需要
-        //清除dailytrade数据表数据
+        cleanExistTradeDcc();
+        //清除dailytrade数据表数据,
 
         List<TradeDcc> trades = getTradeList(fileName);
 
@@ -60,13 +62,13 @@ public class DccFileImport {
 
             TradeDcc tradeDcc = itTrades.next();
             //持久化TradeDcc类
-            importTradeDccAction(tradeDccDao, tradeDcc);
+            importTradeDccAction(tradeDcc);
             
             //持久化Corp类
-            importCorpAction(corpDao, tradeDcc);
+            importCorpAction(tradeDcc);
 
             //持久化DailyTradePerCorp类
-            importDailyTradePerCorp(dailyTradePerCorpDao, tradeDcc);
+            importDailyTradePerCorp(tradeDcc);
 
         }
 
@@ -75,9 +77,10 @@ public class DccFileImport {
     public void cleanExistData(){
         cleanExistTradeDcc();
     }
+
     private void cleanExistTradeDcc(){
 
-        List<TradeDcc> trades = tradeDccDao.findByActdat(insertDate);
+        List<TradeDcc> trades = tradeDccDao.findByFilDat(filDat);
         Iterator<TradeDcc> itTrades = trades.iterator();
         while(itTrades.hasNext()){
             tradeDccDao.delete(itTrades.next());
@@ -90,11 +93,74 @@ public class DccFileImport {
      * @param tradeDccDao
      * @param tradeDcc
      */
-    private void importDailyTradePerCorp(DailyTradePerCorpDao dailyTradePerCorpDao,
-            TradeDcc tradeDcc) {
+    private void importDailyTradePerCorp(TradeDcc tradeDcc) {
 
-        
-        //dailyTradePerCorpDao.saveOrUpdate(tradeDcc);
+        List<Corp> corps = corpDao.findByBusiNo(tradeDcc.getBusiNo());
+        Corp corp = corps.get(0);
+
+        List<DailyTradePerCorp> dailyTradePerCorps = dailyTradePerCorpDao.findByCorpActdat(corp, tradeDcc.getActDat());
+
+        DailyTradePerCorp dailyTradePerCorp = null;
+        //Set<String> dccTerminals = null;
+
+        if(dailyTradePerCorps.size()==1){//已经存在记录
+            dailyTradePerCorp = dailyTradePerCorps.get(0);
+
+            //更新总金额，总dcc费率
+            dailyTradePerCorp.setTotalTxnAmt(dailyTradePerCorp.getTotalTxnAmt()
+                                                .add(tradeDcc.getRealTxnAmt()));
+            dailyTradePerCorp.setTotalDccRate(dailyTradePerCorp.getTotalDccRate()
+                                                .add(tradeDcc.getRealTxnAmt().multiply(corp.getDccRate())));
+            
+            //更新终端金额
+            Map<String, BigDecimal> termTxnAmts = dailyTradePerCorp.getTermTxnAmts();
+            if(termTxnAmts.containsKey(tradeDcc.getTermId())){
+                BigDecimal termTxnAmt = termTxnAmts.get(tradeDcc.getTermId());
+                termTxnAmt.add(tradeDcc.getRealTxnAmt());
+                termTxnAmts.remove(tradeDcc.getTermId());
+                termTxnAmts.put(tradeDcc.getTermId(), termTxnAmt);
+                
+            }else{
+                termTxnAmts.put(tradeDcc.getTermId(), tradeDcc.getRealTxnAmt());
+            }
+            dailyTradePerCorp.setTermTxnAmts(termTxnAmts);
+
+            //更新终端dcc费率
+            Map<String, BigDecimal> termDccRates = dailyTradePerCorp.getTermDccRates();
+            if(termDccRates.containsKey(tradeDcc.getTermId())){
+                BigDecimal termDccRate = termDccRates.get(tradeDcc.getTermId());
+                termDccRate.add(tradeDcc.getRealTxnAmt().multiply(corp.getDccRate()));
+                termDccRates.remove(tradeDcc.getTermId());
+                termDccRates.put(tradeDcc.getTermId(), termDccRate);
+                
+            }else{
+                termDccRates.put(tradeDcc.getTermId(), tradeDcc.getRealTxnAmt().multiply(corp.getDccRate()));
+            }
+            dailyTradePerCorp.setTermDccRates(termDccRates);
+
+        }else if(dailyTradePerCorps.size()==0){//没有记录
+            dailyTradePerCorp = new DailyTradePerCorp();
+
+            //更新总金额，总dcc费率
+            dailyTradePerCorp.setTotalTxnAmt(tradeDcc.getRealTxnAmt());
+            dailyTradePerCorp.setTotalDccRate(tradeDcc.getRealTxnAmt().multiply(corp.getDccRate()));
+            
+            //更新终端金额
+            Map<String, BigDecimal> termTxnAmts = new HashMap<String, BigDecimal>();
+            termTxnAmts.put(tradeDcc.getTermId(), tradeDcc.getRealTxnAmt());
+            dailyTradePerCorp.setTermTxnAmts(termTxnAmts);
+
+            //更新终端dcc费率
+            Map<String, BigDecimal> termDccRates = new HashMap<String, BigDecimal>();
+            termDccRates.put(tradeDcc.getTermId(), tradeDcc.getRealTxnAmt().multiply(corp.getDccRate()));
+            dailyTradePerCorp.setTermDccRates(termDccRates);
+
+        }else{//同一商户号有多条，异常
+            throw new IllegalArgumentException("DailyTradePerCorps.size > 1");
+        }
+
+        dailyTradePerCorpDao.saveOrUpdate(dailyTradePerCorp);
+        dailyTradePerCorpDao.flush();
 
     }
 
@@ -103,8 +169,7 @@ public class DccFileImport {
      * @param tradeDccDao
      * @param tradeDcc
      */
-    private void importTradeDccAction(TradeDccDao tradeDccDao,
-            TradeDcc tradeDcc) {
+    private void importTradeDccAction(TradeDcc tradeDcc) {
 
         tradeDccDao.save(tradeDcc);
 
@@ -116,8 +181,7 @@ public class DccFileImport {
      * @param corpDao
      * @param tradeDcc
      */
-    private void importCorpAction(CorpDao corpDao,
-            TradeDcc tradeDcc) {
+    private void importCorpAction(TradeDcc tradeDcc) {
 
         List<Corp> corps = corpDao.findByBusiNo(tradeDcc.getBusiNo());
 
@@ -156,7 +220,7 @@ public class DccFileImport {
 
         try {
             while (null != (oneline = br.readLine())) {
-                trades.add(DccFileImport.fillerByFixedLength(oneline));
+                trades.add(fillerByFixedLength(oneline));
             }
             return trades;
         }catch(Exception e){
@@ -173,7 +237,7 @@ public class DccFileImport {
         }
     }
 
-    public static TradeDcc fillerByFixedLength(String oneline)
+    public TradeDcc fillerByFixedLength(String oneline)
             throws ClassNotFoundException, InstantiationException,
             IllegalAccessException, SecurityException, NoSuchMethodException,
             IllegalArgumentException, InvocationTargetException {
@@ -225,6 +289,7 @@ public class DccFileImport {
 
         }
 
+        reflectClass.setFilDat(filDat);
         return reflectClass;
     }
 

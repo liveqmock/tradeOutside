@@ -94,4 +94,13 @@ public class TradeDccDaoHibernate extends HibernateDaoSupport implements
                 actDat);
     }
 
+    @Override
+    public List<TradeDcc> findByFilDat(String filDat) {
+
+        return (List<TradeDcc>) getHibernateTemplate().find(
+                "from TradeDcc t " +
+                "where t.filDat = ?",
+                filDat);
+    }
+
 }

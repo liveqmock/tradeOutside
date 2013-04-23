@@ -29,7 +29,7 @@ public interface DailyTradePerCorpDao extends CommonDao<DailyTradePerCorp> {
      *            需要查询的会计日期
      * @return 对应的TradeDcc实例
      */
-    DailyTradePerCorp findByCorpActdat(Corp corp, String actdat);
+    List<DailyTradePerCorp> findByCorpActdat(Corp corp, String actdat);
 
     /**
      * 根据商户查询一段时间跨度的DailyTradePerCorp实例

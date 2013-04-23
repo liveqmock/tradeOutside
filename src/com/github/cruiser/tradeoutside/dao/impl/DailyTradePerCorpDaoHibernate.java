@@ -70,15 +70,11 @@ public class DailyTradePerCorpDaoHibernate extends HibernateDaoSupport
     }
 
     @Override
-    public DailyTradePerCorp findByCorpActdat(Corp corp, String actdat) {
-        List<DailyTradePerCorp> dailyTrades = (List<DailyTradePerCorp>) getHibernateTemplate()
+    public List<DailyTradePerCorp> findByCorpActdat(Corp corp, String actdat) {
+        return (List<DailyTradePerCorp>) getHibernateTemplate()
                 .find("from DailyTradePerCorp as d " + "where d.Corp=?"
                         + " and d.actdat=?", corp, actdat);
-        if (dailyTrades.size() == 1) {
-            return dailyTrades.get(1);
-        } else {
-            return null;
-        }
+
     }
 
     @Override

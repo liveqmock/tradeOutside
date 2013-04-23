@@ -91,14 +91,14 @@ public class TradeDcc implements Serializable, Model {
 
     @Basic
     @Column(length = 8)
-    private String insertDate;/* 文件日期 */
+    private String filDat;/* 文件日期 */
 
-    public String getInsertDate() {
-        return insertDate;
+    public String getFilDat() {
+        return filDat;
     }
 
-    public void setInsertDate(String insertDate) {
-        this.insertDate = insertDate;
+    public void setFilDat(String filDat) {
+        this.filDat = filDat;
     }
 
     public BigDecimal getRealTxnAmt() {
