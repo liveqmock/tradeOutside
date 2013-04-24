@@ -25,8 +25,9 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 @Entity
-@Table(name = "DAILY_TRADE", uniqueConstraints = { @UniqueConstraint(columnNames = {
-        "corp_id_fk", "actDat" }) })
+@Table(name = "DAILY_TRADE",
+        uniqueConstraints = { @UniqueConstraint(
+                columnNames = {"corp_id_fk", "reqDat" }) })
 public class DailyTradePerCorp implements Serializable, Model {
 
     private static final long serialVersionUID = 48L;
@@ -36,44 +37,55 @@ public class DailyTradePerCorp implements Serializable, Model {
     @Column(name = "daily_trade_id")
     private long id;
 
+    /** 商户 */
     @ManyToOne
     @JoinColumn(name = "corp_id_fk")
-    private Corp corp;/* 商户 */
+    private Corp corp;
 
+    /** 会计日期 */
     @Basic
     @Column(length = 8)
-    private String actDat;/* 会计日期 */
+    private String reqDat;
 
+    /** dcc手续费汇总 */
     @Basic
-    private BigDecimal totalDccRate;/* dcc手续费汇总 */
+    @Column(columnDefinition = "numeric(19,6) default 0.0")
+    private BigDecimal totalDccRate;
 
+    /** edc手续费汇总 */
     @Basic
-    private BigDecimal totalEdcRate;/* edc手续费汇总 */
+    @Column(columnDefinition = "numeric(19,6) default 0.0")
+    private BigDecimal totalEdcRate;
 
+    /** 交易总金额 */
     @Basic
-    private BigDecimal totalTxnAmt;/* 交易总金额 */
+    @Column(columnDefinition = "numeric(19,6) default 0.0")
+    private BigDecimal totalTxnAmt;
 
     /** dcc手续费按终端汇总 */
     @ElementCollection
-    @CollectionTable(name = "TERM_DCC_RATES", joinColumns = @JoinColumn(name = "daily_trade_id"))
+    @CollectionTable(name = "TERM_DCC_RATES", joinColumns
+        = @JoinColumn(name = "daily_trade_id"))
     @MapKeyColumn(name = "termNo", nullable = false)
-    @Column(name = "dccRate", columnDefinition = "numeric(19,2) default 0.0")
+    @Column(name = "dccRate", columnDefinition = "numeric(19,6) default 0.0")
     @LazyCollection(LazyCollectionOption.FALSE)
     private Map<String, BigDecimal> termDccRates;
 
     /** edc手续费按终端汇总 */
     @ElementCollection
-    @CollectionTable(name = "TERM_EDC_RATES", joinColumns = @JoinColumn(name = "daily_trade_id"))
+    @CollectionTable(name = "TERM_EDC_RATES", joinColumns
+        = @JoinColumn(name = "daily_trade_id"))
     @MapKeyColumn(name = "termNo", nullable = false)
-    @Column(name = "edcRate", columnDefinition = "numeric(19,2) default 0.0")
+    @Column(name = "edcRate", columnDefinition = "numeric(19,6) default 0.0")
     @LazyCollection(LazyCollectionOption.FALSE)
     private Map<String, BigDecimal> termEdcRates;
 
     /** 终端金额汇总 */
     @ElementCollection
-    @CollectionTable(name = "TERM_TXNAMTS", joinColumns = @JoinColumn(name = "daily_trade_id"))
+    @CollectionTable(name = "TERM_TXNAMTS", joinColumns
+        = @JoinColumn(name = "daily_trade_id"))
     @MapKeyColumn(name = "termNo", nullable = false)
-    @Column(name = "txnAmt", columnDefinition = "numeric(19,2) default 0.0")
+    @Column(name = "txnAmt", columnDefinition = "numeric(19,6) default 0.0")
     @LazyCollection(LazyCollectionOption.FALSE)
     private Map<String, BigDecimal> termTxnAmts;
 
@@ -93,12 +105,12 @@ public class DailyTradePerCorp implements Serializable, Model {
         this.corp = corp;
     }
 
-    public String getActDat() {
-        return actDat;
+    public String getReqDat() {
+        return reqDat;
     }
 
-    public void setActDat(String actDat) {
-        this.actDat = actDat;
+    public void setReqDat(String reqDat) {
+        this.reqDat = reqDat;
     }
 
     public BigDecimal getTotalDccRate() {
@@ -151,10 +163,12 @@ public class DailyTradePerCorp implements Serializable, Model {
 
     public String toString() {
         StringBuffer output = new StringBuffer();
-        output.append("商户每天交易统计：（").append("\n商户号: ").append(corp.getBusiNo())
-                .append("\n会计日期: ").append(actDat).append("\ndcc手续费汇总: ")
-                .append(totalDccRate).append("\nedc手续费汇总: ")
-                .append(totalEdcRate).append("\n交易总金额: ").append(totalTxnAmt);
+        output.append("商户每天交易统计：（")
+            .append("\n商户号: ").append(corp.getBusiNo())
+            .append("\n会计日期: ").append(reqDat)
+            .append("\ndcc手续费汇总: ").append(totalDccRate)
+            .append("\nedc手续费汇总: ").append(totalEdcRate)
+            .append("\n交易总金额: ").append(totalTxnAmt);
 
         Set<String> keySet = termDccRates.keySet();
         Iterator<String> commonIt = keySet.iterator();

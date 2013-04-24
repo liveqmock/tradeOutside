@@ -8,28 +8,29 @@ public interface DailyTradePerCorpDao extends CommonDao<DailyTradePerCorp> {
 
     /**
      * 根据会计日期查询对应DailyTradePerCorp实例
-     * @param actdat
+     * @param reqDat
      * @return
      */
-    List<DailyTradePerCorp> findByActdat(String actdat);
+    List<DailyTradePerCorp> findByReqDat(String reqDat);
 
     /**
      * 查询一段时间跨度的DailyTradePerCorp实例
-     * @param actdat
+     * @param startdate 开始时间
+     * @param endate 结束时间
      * @return
      */
-    List<DailyTradePerCorp> findByActdat(String startdate, String endate);
+    List<DailyTradePerCorp> findByReqDat(String startdate, String endate);
 
     /**
      * 根据商户会计日期查询对应DailyTradePerCorp实例
      * 
      * @param corp
      *            需要查询的商户
-     * @param actdat
+     * @param reqDat
      *            需要查询的会计日期
      * @return 对应的TradeDcc实例
      */
-    List<DailyTradePerCorp> findByCorpActdat(Corp corp, String actdat);
+    List<DailyTradePerCorp> findByCorpReqDat(Corp corp, String reqDat);
 
     /**
      * 根据商户查询一段时间跨度的DailyTradePerCorp实例
@@ -38,7 +39,7 @@ public interface DailyTradePerCorpDao extends CommonDao<DailyTradePerCorp> {
      * @param endate 时间结束
      * @return
      */
-    List<DailyTradePerCorp> findByCorpTimeparm(Corp corp, String startdate,
+    List<DailyTradePerCorp> findByCorpReqDat(Corp corp, String startdate,
             String endate);
 
 }

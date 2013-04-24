@@ -19,9 +19,13 @@ public class DccInputFileTest {
      */
     public static void main(String[] args) throws Exception {
 
-        DccFileImport test = new DccFileImport("20120504");
-        test.cleanExistData();
-        test.importFileProcess("tmp/BOCOM_PIF_20120524.txt");
+        /*System.out.println("tmp/BOCOM_310999_PIF.20231231".indexOf("."));
+        String[] tmp = "tmp/BOCOM_310999_PIF.20231231".split("\\.");
+        for(String one:tmp){
+            System.out.println(one);
+        }*/
+        DccFileImport test = new DccFileImport("tmp/BOCOM_310999_PIF.20231231");
+        test.importFileProcess();
 
 
         /*Configuration conf = new Configuration().configure();

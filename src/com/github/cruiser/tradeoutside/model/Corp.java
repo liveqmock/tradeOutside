@@ -27,29 +27,34 @@ public class Corp implements Serializable, Model {
     @Column(name = "corp_id")
     private long corp_id;
 
+    /** merchant_no char (15) 商户号，42域 */
     @Basic
     @Column(length = 15)
-    private String busiNo;/* merchant_no char (15) 商户号，42域 */
+    private String busiNo;
 
+    /** dcc手续费率 */
     @Basic
-    @Column(columnDefinition = "numeric(19,2) default 0.0")
-    private BigDecimal dccRate;/* dcc手续费率 */
+    @Column(columnDefinition = "numeric(19,6) default 0.0")
+    private BigDecimal dccRate;
 
+    /** edc手续费率 */
     @Basic
-    @Column(columnDefinition = "numeric(19,2) default 0.0")
-    private BigDecimal edcRate;/* edc手续费率 */
+    @Column(columnDefinition = "numeric(19,6) default 0.0")
+    private BigDecimal edcRate;
 
+    /** dcc终端编号 */
     @ElementCollection
     @CollectionTable(name = "DCCTERMINALS", joinColumns = @JoinColumn(name = "corp_id"))
     @Column(name = "dccTerm", length = 8)
     @LazyCollection(LazyCollectionOption.FALSE)
-    private Set<String> dccTerminals;/* dcc终端编号 */
+    private Set<String> dccTerminals;
 
+    /** edc终端编号 */
     @ElementCollection
     @CollectionTable(name = "EDCTERMINALS", joinColumns = @JoinColumn(name = "corp_id"))
     @Column(name = "edcTerm", length = 8)
     @LazyCollection(LazyCollectionOption.FALSE)
-    private Set<String> edcTerminals;/* edc终端编号 */
+    private Set<String> edcTerminals;
 
     public long getId() {
         return corp_id;

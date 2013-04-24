@@ -12,20 +12,20 @@ public class TradeDccDaoHibernate extends HibernateDaoSupport implements
 
     @Override
     public TradeDcc get(Long id) {
-
         return getHibernateTemplate().get(TradeDcc.class, id);
+
     }
 
     @Override
     public Long save(TradeDcc object) {
-
         return (Long) getHibernateTemplate().save(object);
+
     }
 
     @Override
     public void saveOrUpdate(TradeDcc object) {
-
         getHibernateTemplate().saveOrUpdate(object);
+
     }
 
     @Override
@@ -52,36 +52,15 @@ public class TradeDccDaoHibernate extends HibernateDaoSupport implements
     }
 
     @Override
-    public List<TradeDcc> findAll() {
-        return (List<TradeDcc>) getHibernateTemplate().find("from TradeDcc");
-
-    }
-
-    @Override
-    public List<TradeDcc> findByBusiNoActdat(final String busiNo,
-            final String actDat) {
-
-        return (List<TradeDcc>) getHibernateTemplate().find(
-                "from TradeDcc t where t.busiNo = ? and t.actDat = ?",
-                busiNo, actDat);
-    }
-
-    @Override
-    public List<TradeDcc> findByBusiNoTermActdat(final String busiNo,
-            final String termId, final String actDat) {
-
-        return (List<TradeDcc>) getHibernateTemplate().find(
-                "from TradeDcc t " +
-                "where t.busiNo = ?" +
-                " and t.actDat = ?" +
-                " and t.termId = ?",
-                busiNo, actDat, termId);
-
-    }
-
-    @Override
     public void flush() {
         getHibernateTemplate().flush();
+
+    }
+
+    @Override
+    public List<TradeDcc> findAll() {
+        return (List<TradeDcc>) getHibernateTemplate()
+                .find("from TradeDcc");
 
     }
 
@@ -94,13 +73,36 @@ public class TradeDccDaoHibernate extends HibernateDaoSupport implements
                 actDat);
     }
 
-    @Override
-    public List<TradeDcc> findByFilDat(String filDat) {
 
+    @Override
+    public List<TradeDcc> findByReqDat(String reqDat) {
         return (List<TradeDcc>) getHibernateTemplate().find(
                 "from TradeDcc t " +
-                "where t.filDat = ?",
-                filDat);
+                "where t.reqDat = ?",
+                reqDat);
+
+    }
+
+
+    @Override
+    public List<TradeDcc> findByBusiNoReqDat(String busiNo, String reqDat) {
+        return (List<TradeDcc>) getHibernateTemplate().find(
+                "from TradeDcc t where t.busiNo = ? and t.reqDat = ?",
+                busiNo, reqDat);
+
+    }
+
+
+    @Override
+    public List<TradeDcc> findByBusiNoTermReqDat(String busiNo, String termId,
+            String reqDat) {
+        return (List<TradeDcc>) getHibernateTemplate().find(
+                "from TradeDcc t " +
+                "where t.busiNo = ?" +
+                " and t.reqDat = ?" +
+                " and t.termId = ?",
+                busiNo, reqDat, termId);
+
     }
 
 }

@@ -35,7 +35,7 @@ public class DailyTradePerCorpDaoHibernateTest {
         System.out.println(corp);
 
         DailyTradePerCorp dailyTrade = new DailyTradePerCorp();
-        dailyTrade.setActDat("20130419");
+        dailyTrade.setReqDat("20130419");
         dailyTrade.setCorp(corp);
         dailyTrade.setTotalDccRate(new BigDecimal("1.0"));
         dailyTrade.setTotalEdcRate(new BigDecimal("2.0"));

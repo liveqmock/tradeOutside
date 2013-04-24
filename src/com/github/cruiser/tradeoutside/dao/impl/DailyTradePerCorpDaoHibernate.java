@@ -29,8 +29,8 @@ public class DailyTradePerCorpDaoHibernate extends HibernateDaoSupport
 
     @Override
     public void saveOrUpdate(DailyTradePerCorp object) {
-
         getHibernateTemplate().saveOrUpdate(object);
+
     }
 
     @Override
@@ -70,39 +70,39 @@ public class DailyTradePerCorpDaoHibernate extends HibernateDaoSupport
     }
 
     @Override
-    public List<DailyTradePerCorp> findByCorpActdat(Corp corp, String actdat) {
-        return (List<DailyTradePerCorp>) getHibernateTemplate()
-                .find("from DailyTradePerCorp as d " + "where d.Corp=?"
-                        + " and d.actdat=?", corp, actdat);
-
-    }
-
-    @Override
-    public List<DailyTradePerCorp> findByCorpTimeparm(Corp corp,
-            String startdate, String endate) {
-
+    public List<DailyTradePerCorp> findByReqDat(String reqDat) {
         return getHibernateTemplate().find(
-                "from DailyTradePerCorp as d where d.Corp=?"
-                        + " and d.actdat>=? and d.actdat<=?", corp,
-                startdate, endate);
-    }
-
-    @Override
-    public List<DailyTradePerCorp> findByActdat(String actdat) {
-
-        return getHibernateTemplate().find(
-                "from DailyTradePerCorp as d where d.actdat=?",
-                actdat
+                "from DailyTradePerCorp as d where d.reqDat=?",
+                reqDat
                 );
+
     }
 
     @Override
-    public List<DailyTradePerCorp> findByActdat(String startdate, String endate) {
-
+    public List<DailyTradePerCorp> findByReqDat(String startdate, String endate) {
         return getHibernateTemplate().find(
                 "from DailyTradePerCorp as d" +
-                " where d.actdat>=? and d.actdat<=?",
+                " where d.reqDat>=? and d.reqDat<=?",
                 startdate, endate);
+
+    }
+
+    @Override
+    public List<DailyTradePerCorp> findByCorpReqDat(Corp corp, String reqDat) {
+        return (List<DailyTradePerCorp>) getHibernateTemplate()
+                .find("from DailyTradePerCorp as d " + "where d.corp=?"
+                        + " and d.reqDat=?", corp, reqDat);
+
+    }
+
+    @Override
+    public List<DailyTradePerCorp> findByCorpReqDat(Corp corp,
+            String startdate, String endate) {
+        return getHibernateTemplate().find(
+                "from DailyTradePerCorp as d where d.Corp=?"
+                        + " and d.reqDat>=? and d.reqDat<=?", corp,
+                startdate, endate);
+
     }
 
 }

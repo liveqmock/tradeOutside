@@ -19,7 +19,7 @@ public class TradeDccDaoHibernateTest {
 
         TradeDcc modelObject = new TradeDcc();
         modelObject.setAcpAdr("Sai Ma Can Yin Shanghai Chn 126686       ");
-        modelObject.setActDat("20120503");
+        modelObject.setReqDat("20120503");
         modelObject.setActNo("5209530362504767         ");
         modelObject.setaRspCd("020008");
         modelObject.setBusiNo("301310058126686");
@@ -52,7 +52,7 @@ public class TradeDccDaoHibernateTest {
          * modelObjectDao.save(modelObject);
          */
 
-        List<TradeDcc> modelObjects = modelObjectDao.findByBusiNoTermActdat(
+        List<TradeDcc> modelObjects = modelObjectDao.findByBusiNoTermReqDat(
                 "301310058126686", "26686004", "20120503");
         // List<TradeDcc> modelObjects =
         // modelObjectDao.findByBusiNoActdat("301310058126686", "20120503");
