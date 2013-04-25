@@ -1,3 +1,13 @@
+jasperreports
+
+process
+clean
+javac
+compile
+fill
+pdf
+
+=============================================
 ModelDaoHibernate<CommonDaoHibernate<HibernateDaoSupport, CommonDao
 
 

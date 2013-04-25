@@ -8,7 +8,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
-import com.github.cruiser.tradeoutside.input.*;
 import com.github.cruiser.tradeoutside.model.TradeDcc;
 import com.github.cruiser.tradeoutside.process.DccFileImport;
 
